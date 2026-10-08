@@ -38,10 +38,23 @@ public class ArrayStorage {
      * @return array, contains only Resumes in storage (without null)
      */
     Resume[] getAll() {
-        return new Resume[0];
+        Resume[] filledStorage = new Resume[size()];
+
+        System.arraycopy(storage, 0, filledStorage, 0, filledStorage.length);
+
+        return filledStorage;
     }
 
     int size() {
-        return 0;
+        int size = 0;
+
+        for (Resume resume : storage) {
+            if (resume == null) {
+                break;
+            }
+            size += 1;
+        }
+
+        return size;
     }
 }
