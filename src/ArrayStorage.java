@@ -9,11 +9,11 @@ public class ArrayStorage {
 
     void save(Resume r) {
         for (int i = 0; i < storage.length; i++) {
-            if (storage[i].uuid.equals(r.uuid)) {
-                break;
-            }
             if (storage[i] == null) {
                 storage[i] = r;
+                break;
+            }
+            if (storage[i].uuid.equals(r.uuid)) {
                 break;
             }
         }
