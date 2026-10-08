@@ -41,6 +41,9 @@ public class ArrayStorage {
         boolean findElement = false;
 
         for (int i = 0; i < storage.length; i++) {
+            if(storage[i] == null){
+                break;
+            }
             if (storage[i].uuid.equals(uuid) || findElement) {
                 findElement = true;
 
