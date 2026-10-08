@@ -32,6 +32,25 @@ public class ArrayStorage {
     }
 
     void delete(String uuid) {
+        boolean findElement = false;
+
+        for (int i = 0; i < storage.length; i++) {
+            if (storage[i].uuid.equals(uuid) || findElement) {
+                findElement = true;
+
+                if (storage[i] != null) {
+                    if(i + 1 < storage.length){
+                        storage[i] = storage[i + 1];
+
+                        if (storage[i + 1] == null) {
+                            break;
+                        }
+                    } else {
+                        storage[i] = null;
+                    }
+                }
+            }
+        }
     }
 
     /**
