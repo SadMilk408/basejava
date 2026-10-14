@@ -24,7 +24,7 @@ public class ArrayStorage {
 
     public Resume get(String uuid) {
         for (int i = 0; i < size; i++) {
-            if (storage[i].getUuid().equals(uuid)) {
+            if (storage[i].uuid().equals(uuid)) {
                 return storage[i];
             }
         }
@@ -35,7 +35,7 @@ public class ArrayStorage {
         boolean foundResume = false;
 
         for (int i = 0; i < size; i++) {
-            if (storage[i].getUuid().equals(uuid) || foundResume) {
+            if (storage[i].uuid().equals(uuid) || foundResume) {
                 foundResume = true;
 
                 if (storage[i] != null) {
