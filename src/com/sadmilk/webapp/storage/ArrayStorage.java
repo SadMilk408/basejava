@@ -1,3 +1,7 @@
+package com.sadmilk.webapp.storage;
+
+import com.sadmilk.webapp.model.Resume;
+
 /**
  * Array based storage for Resumes
  */
@@ -6,32 +10,32 @@ public class ArrayStorage {
 
     int size = 0;
 
-    void clear() {
+    public void clear() {
         for (int i = 0; i < size; i++) {
             storage[i] = null;
         }
         size = 0;
     }
 
-    void save(Resume r) {
+    public void save(Resume r) {
         storage[size] = r;
         size++;
     }
 
-    Resume get(String uuid) {
+    public Resume get(String uuid) {
         for (int i = 0; i < size; i++) {
-            if (storage[i].uuid.equals(uuid)) {
+            if (storage[i].getUuid().equals(uuid)) {
                 return storage[i];
             }
         }
         return null;
     }
 
-    void delete(String uuid) {
+    public void delete(String uuid) {
         boolean foundResume = false;
 
         for (int i = 0; i < size; i++) {
-            if (storage[i].uuid.equals(uuid) || foundResume) {
+            if (storage[i].getUuid().equals(uuid) || foundResume) {
                 foundResume = true;
 
                 if (storage[i] != null) {
@@ -47,7 +51,7 @@ public class ArrayStorage {
     /**
      * @return array, contains only Resumes in storage (without null)
      */
-    Resume[] getAll() {
+    public Resume[] getAll() {
         Resume[] filledStorage = new Resume[size];
 
         System.arraycopy(storage, 0, filledStorage, 0, filledStorage.length);
@@ -55,7 +59,7 @@ public class ArrayStorage {
         return filledStorage;
     }
 
-    int size() {
+    public int size() {
         return size;
     }
 }
