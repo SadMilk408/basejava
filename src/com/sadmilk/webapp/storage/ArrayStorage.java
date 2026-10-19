@@ -5,13 +5,14 @@ package com.sadmilk.webapp.storage;
  */
 public class ArrayStorage extends AbstractArrayStorage {
     @Override
-    protected int saveByAlgo(int tempIndex) {
+    protected int getInsertIndex(int tempIndex) {
         return size;
     }
 
     @Override
     protected void deleteByAlgo(int index) {
         storage[index] = storage[index + 1];
+        storage[index] = storage[size - 1];
     }
 
     @Override
