@@ -48,7 +48,7 @@ public abstract class AbstractArrayStorage implements Storage {
 
     public void update(Resume r) {
         int index = getIndex(r.uuid());
-        if (index <= 0) {
+        if (index <= -1) {
             System.out.println("Storage doesn't exist element with uuid: " + r.uuid());
             return;
         }
