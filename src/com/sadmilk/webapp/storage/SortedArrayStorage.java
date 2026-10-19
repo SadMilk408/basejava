@@ -6,7 +6,7 @@ import java.util.Arrays;
 
 public class SortedArrayStorage extends AbstractArrayStorage {
     @Override
-    protected int saveByAlgo(int tempIndex) {
+    protected int getInsertIndex(int tempIndex) {
         var pos = -tempIndex - 1;
 
         System.arraycopy(storage, pos, storage, pos + 1, size - pos);
@@ -15,8 +15,8 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    protected void deleteByAlgo(int index) {
-        System.arraycopy(storage, index + 1, storage, index, size - index);
+    protected void moveElementsAfterDelete(int index) {
+        System.arraycopy(storage, index + 1, storage, index, size - index - 1);
     }
 
     @Override

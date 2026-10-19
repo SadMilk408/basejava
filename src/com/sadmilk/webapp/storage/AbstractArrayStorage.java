@@ -33,7 +33,7 @@ public abstract class AbstractArrayStorage implements Storage {
             System.out.println("Storage is already exist element with uuid: " + r.uuid());
             return;
         }
-        storage[saveByAlgo(index)] = r;
+        storage[getInsertIndex(index)] = r;
         size++;
     }
 
@@ -61,14 +61,14 @@ public abstract class AbstractArrayStorage implements Storage {
             System.out.println("Storage doesn't exist element with uuid: " + uuid);
             return;
         }
-        deleteByAlgo(index);
-        storage[size] = null;
+        moveElementsAfterDelete(index);
+        storage[size - 1] = null;
         size--;
     }
 
-    protected abstract void deleteByAlgo(int index);
+    protected abstract void moveElementsAfterDelete(int index);
 
-    protected abstract int saveByAlgo(int index);
+    protected abstract int getInsertIndex(int index);
 
     protected abstract int getIndex(String uuid);
 }
