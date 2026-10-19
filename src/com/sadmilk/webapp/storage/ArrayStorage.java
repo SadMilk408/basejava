@@ -23,25 +23,16 @@ public class ArrayStorage extends AbstractArrayStorage {
 
     @Override
     public void delete(String uuid) {
-        var elementPos = getIndex(uuid);
-        if (elementPos == -1) {
+        var index = getIndex(uuid);
+        if (index == -1) {
             System.out.println("Storage doesn't exist element with uuid: " + uuid);
             return;
         }
-        boolean foundResume = false;
 
-        for (int i = 0; i < size; i++) {
-            if (storage[i].uuid().equals(uuid) || foundResume) {
-                foundResume = true;
+        storage[index] = storage[index + 1];
+        storage[size] = null;
 
-                if (storage[i] != null) {
-                    storage[i] = storage[i + 1];
-                }
-            }
-        }
-        if (foundResume) {
-            size--;
-        }
+        size--;
     }
 
     @Override
