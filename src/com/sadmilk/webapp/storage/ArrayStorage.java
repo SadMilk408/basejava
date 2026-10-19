@@ -10,8 +10,7 @@ public class ArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    protected void deleteByAlgo(int index) {
-        storage[index] = storage[index + 1];
+    protected void moveElementsAfterDelete(int index) {
         storage[index] = storage[size - 1];
     }
 
