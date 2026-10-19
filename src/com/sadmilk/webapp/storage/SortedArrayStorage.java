@@ -5,17 +5,6 @@ import com.sadmilk.webapp.model.Resume;
 import java.util.Arrays;
 
 public class SortedArrayStorage extends AbstractArrayStorage {
-
-    @Override
-    public void clear() {
-
-    }
-
-    @Override
-    public void update(Resume r) {
-
-    }
-
     @Override
     protected int indexForInsert(int tempIndex) {
         var pos = -tempIndex - 1;

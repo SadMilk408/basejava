@@ -1,21 +1,9 @@
 package com.sadmilk.webapp.storage;
 
-import com.sadmilk.webapp.model.Resume;
-
 /**
  * Array based storage for Resumes
  */
 public class ArrayStorage extends AbstractArrayStorage {
-    @Override
-    public void update(Resume r) {
-        var i = getIndex(r.uuid());
-        if (i != -1) {
-            storage[i] = r;
-        } else {
-            System.out.println("Storage doesn't exist element with uuid: " + r.uuid());
-        }
-    }
-
     @Override
     protected int indexForInsert(int tempIndex) {
         return size;
