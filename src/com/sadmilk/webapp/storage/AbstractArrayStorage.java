@@ -63,6 +63,7 @@ public abstract class AbstractArrayStorage implements Storage {
         }
         deleteByAlgo(index);
         storage[size] = null;
+        storage[size - 1] = null;
         size--;
     }
 
