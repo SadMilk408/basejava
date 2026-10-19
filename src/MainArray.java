@@ -1,5 +1,6 @@
 import com.sadmilk.webapp.model.Resume;
 import com.sadmilk.webapp.storage.ArrayStorage;
+import com.sadmilk.webapp.storage.Storage;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -28,7 +29,7 @@ public class MainArray {
             }
             switch (params[0]) {
                 case "list":
-                    printAll();
+                    printAll(ARRAY_STORAGE);
                     break;
                 case "size":
                     System.out.println(ARRAY_STORAGE.size());
@@ -36,23 +37,23 @@ public class MainArray {
                 case "save":
                     r = new Resume(uuid);
                     ARRAY_STORAGE.save(r);
-                    printAll();
+                    printAll(ARRAY_STORAGE);
                     break;
                 case "update":
                     r = new Resume(uuid);
                     ARRAY_STORAGE.update(r);
-                    printAll();
+                    printAll(ARRAY_STORAGE);
                     break;
                 case "delete":
                     ARRAY_STORAGE.delete(uuid);
-                    printAll();
+                    printAll(ARRAY_STORAGE);
                     break;
                 case "get":
                     System.out.println(ARRAY_STORAGE.get(uuid));
                     break;
                 case "clear":
                     ARRAY_STORAGE.clear();
-                    printAll();
+                    printAll(ARRAY_STORAGE);
                     break;
                 case "exit":
                     return;
@@ -63,8 +64,8 @@ public class MainArray {
         }
     }
 
-    static void printAll() {
-        Resume[] all = ARRAY_STORAGE.getAll();
+    static void printAll(Storage s) {
+        Resume[] all = s.getAll();
         System.out.println("----------------------------");
         if (all.length == 0) {
             System.out.println("Empty");

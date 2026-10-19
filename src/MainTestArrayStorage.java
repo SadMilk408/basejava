@@ -1,11 +1,13 @@
 import com.sadmilk.webapp.model.Resume;
-import com.sadmilk.webapp.storage.ArrayStorage;
+import com.sadmilk.webapp.storage.SortedArrayStorage;
+import com.sadmilk.webapp.storage.Storage;
 
 /**
  * Test for your ArrayStorage implementation
  */
 public class MainTestArrayStorage {
-    static final ArrayStorage ARRAY_STORAGE = new ArrayStorage();
+    static final Storage ARRAY_STORAGE = new SortedArrayStorage();
+    static final Storage ARRAY_SORTED_STORAGE = new SortedArrayStorage();
 
     public static void main(String[] args) {
         Resume r1 = new Resume("uuid1");
@@ -21,18 +23,18 @@ public class MainTestArrayStorage {
 
         System.out.println("Get dummy: " + ARRAY_STORAGE.get("dummy"));
 
-        printAll();
+        printAll(ARRAY_STORAGE);
         ARRAY_STORAGE.delete(r1.uuid());
-        printAll();
+        printAll(ARRAY_STORAGE);
         ARRAY_STORAGE.clear();
-        printAll();
+        printAll(ARRAY_STORAGE);
 
         System.out.println("Size: " + ARRAY_STORAGE.size());
     }
 
-    static void printAll() {
+    static void printAll(Storage s) {
         System.out.println("\nGet All");
-        for (Resume r : ARRAY_STORAGE.getAll()) {
+        for (Resume r : s.getAll()) {
             System.out.println(r);
         }
     }

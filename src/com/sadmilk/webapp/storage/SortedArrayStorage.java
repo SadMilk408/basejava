@@ -1,0 +1,26 @@
+package com.sadmilk.webapp.storage;
+
+import com.sadmilk.webapp.model.Resume;
+
+import java.util.Arrays;
+
+public class SortedArrayStorage extends AbstractArrayStorage {
+    @Override
+    protected int saveByAlgo(int tempIndex) {
+        var pos = -tempIndex - 1;
+
+        System.arraycopy(storage, pos, storage, pos + 1, size - pos);
+
+        return pos;
+    }
+
+    @Override
+    protected void deleteByAlgo(int index) {
+        System.arraycopy(storage, index + 1, storage, index, size - index);
+    }
+
+    @Override
+    protected int getIndex(String uuid) {
+        return Arrays.binarySearch(storage, 0, size, new Resume(uuid));
+    }
+}
