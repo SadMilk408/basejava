@@ -5,22 +5,13 @@ package com.sadmilk.webapp.storage;
  */
 public class ArrayStorage extends AbstractArrayStorage {
     @Override
-    protected int indexForInsert(int tempIndex) {
+    protected int saveByAlgo(int tempIndex) {
         return size;
     }
 
     @Override
-    public void delete(String uuid) {
-        var index = getIndex(uuid);
-        if (index == -1) {
-            System.out.println("Storage doesn't exist element with uuid: " + uuid);
-            return;
-        }
-
+    protected void deleteByAlgo(int index) {
         storage[index] = storage[index + 1];
-        storage[size] = null;
-
-        size--;
     }
 
     @Override
