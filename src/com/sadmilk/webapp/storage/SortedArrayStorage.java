@@ -6,16 +6,16 @@ import java.util.Arrays;
 
 public class SortedArrayStorage extends AbstractArrayStorage {
     @Override
-    protected int getInsertIndex(int tempIndex) {
+    protected void insertElement(Resume r, int tempIndex) {
         var pos = -tempIndex - 1;
 
         System.arraycopy(storage, pos, storage, pos + 1, size - pos);
 
-        return pos;
+        storage[pos] = r;
     }
 
     @Override
-    protected void moveElementsAfterDelete(int index) {
+    protected void fillDeletedElement(int index) {
         System.arraycopy(storage, index + 1, storage, index, size - index - 1);
     }
 

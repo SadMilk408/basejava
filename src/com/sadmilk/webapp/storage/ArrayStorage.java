@@ -1,16 +1,18 @@
 package com.sadmilk.webapp.storage;
 
+import com.sadmilk.webapp.model.Resume;
+
 /**
  * Array based storage for Resumes
  */
 public class ArrayStorage extends AbstractArrayStorage {
     @Override
-    protected int getInsertIndex(int tempIndex) {
-        return size;
+    protected void insertElement(Resume r, int index) {
+        storage[index] = r;
     }
 
     @Override
-    protected void moveElementsAfterDelete(int index) {
+    protected void fillDeletedElement(int index) {
         storage[index] = storage[size - 1];
     }
 
