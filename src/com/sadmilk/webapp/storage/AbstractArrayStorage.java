@@ -1,5 +1,8 @@
 package com.sadmilk.webapp.storage;
 
+import com.sadmilk.webapp.exception.ExistStorageException;
+import com.sadmilk.webapp.exception.NotExistStorageException;
+import com.sadmilk.webapp.exception.StorageException;
 import com.sadmilk.webapp.model.Resume;
 
 import java.util.Arrays;
@@ -25,41 +28,36 @@ public abstract class AbstractArrayStorage implements Storage {
 
     public void save(Resume r) {
         int index = getIndex(r.uuid());
-        if (size >= STORAGE_LIMIT) {
-            System.out.println("Storage is already full! " + r.uuid() + "doesn't added");
-            return;
-        }
         if (index >= 0) {
-            System.out.println("Storage is already exist element with uuid: " + r.uuid());
-            return;
+            throw new ExistStorageException(r.uuid());
+        } else if (size >= STORAGE_LIMIT) {
+            throw new StorageException("Storage is already full!", r.uuid());
         }
+
         insertElement(r, index);
         size++;
     }
 
     public Resume get(String uuid) {
         int index = getIndex(uuid);
-        if (index <= -1) {
-            System.out.println("Storage doesn't exist element with uuid: " + uuid);
-            return null;
+        if (index < 0) {
+            throw new NotExistStorageException(uuid);
         }
         return storage[index];
     }
 
     public void update(Resume r) {
         int index = getIndex(r.uuid());
-        if (index <= -1) {
-            System.out.println("Storage doesn't exist element with uuid: " + r.uuid());
-            return;
+        if (index < 0) {
+            throw new NotExistStorageException(r.uuid());
         }
         storage[index] = r;
     }
 
     public void delete(String uuid) {
         var index = getIndex(uuid);
-        if (index <= -1) {
-            System.out.println("Storage doesn't exist element with uuid: " + uuid);
-            return;
+        if (index < 0) {
+            throw new NotExistStorageException(uuid);
         }
         fillDeletedElement(index);
         storage[size - 1] = null;
