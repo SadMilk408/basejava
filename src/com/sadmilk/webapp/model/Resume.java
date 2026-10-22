@@ -1,8 +1,13 @@
 package com.sadmilk.webapp.model;
 
 import java.util.Objects;
+import java.util.UUID;
 
 public record Resume(String uuid) implements Comparable<Resume> {
+    public Resume() {
+        this(UUID.randomUUID().toString());
+    }
+
     @Override
     public String toString() {
         return uuid;
