@@ -3,9 +3,13 @@ package com.sadmilk.webapp.model;
 import java.util.Objects;
 import java.util.UUID;
 
-public record Resume(String uuid) implements Comparable<Resume> {
+public record Resume(String uuid, String fullName) {
     public Resume() {
-        this(UUID.randomUUID().toString());
+        this(UUID.randomUUID().toString(), "");
+    }
+
+    public Resume(String uuid) {
+        this(uuid, "");
     }
 
     @Override
@@ -23,10 +27,5 @@ public record Resume(String uuid) implements Comparable<Resume> {
     @Override
     public int hashCode() {
         return Objects.hashCode(uuid);
-    }
-
-    @Override
-    public int compareTo(Resume o) {
-        return uuid.compareTo(o.uuid);
     }
 }

@@ -1,0 +1,72 @@
+package com.sadmilk.webapp.storage;
+
+import com.sadmilk.webapp.exception.ExistStorageException;
+import com.sadmilk.webapp.exception.NotExistStorageException;
+import com.sadmilk.webapp.model.Resume;
+
+import java.util.Comparator;
+
+public abstract class AbstractStorage implements Storage {
+    protected static final Comparator<Resume> RESUME_COMPARATOR =
+            Comparator.comparing(Resume::fullName).thenComparing(Resume::uuid);
+
+    @Override
+    public void save(Resume r) {
+        Object searchKey = getNotExistedSearchKey(r.uuid());
+
+        doSave(r, searchKey);
+    }
+
+    @Override
+    public Resume get(String uuid) {
+        Object searchKey = getExistedSearchKey(uuid);
+
+        return doGet(searchKey);
+    }
+
+    @Override
+    public void update(Resume r) {
+        Object searchKey = getExistedSearchKey(r.uuid());
+
+        doUpdate(r, searchKey);
+    }
+
+    @Override
+    public void delete(String uuid) {
+        Object searchKey = getExistedSearchKey(uuid);
+
+        doDelete(searchKey);
+    }
+
+    private Object getExistedSearchKey(String uuid) {
+        Object searchKey = getSearchKey(uuid);
+
+        if (!isExist(searchKey)) {
+            throw new NotExistStorageException(uuid);
+        }
+
+        return searchKey;
+    }
+
+    private Object getNotExistedSearchKey(String uuid) {
+        Object searchKey = getSearchKey(uuid);
+
+        if (isExist(searchKey)) {
+            throw new ExistStorageException(uuid);
+        }
+
+        return searchKey;
+    }
+
+    protected abstract void doSave(Resume r, Object key);
+
+    protected abstract Resume doGet(Object key);
+
+    protected abstract void doUpdate(Resume r, Object key);
+
+    protected abstract void doDelete(Object key);
+
+    protected abstract Object getSearchKey(String uuid);
+
+    protected abstract boolean isExist(Object searchKey);
+}
