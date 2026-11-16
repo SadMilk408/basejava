@@ -5,31 +5,31 @@ import com.sadmilk.webapp.model.Resume;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListStorage extends AbstractStorage {
+public class ListStorage extends AbstractStorage<Integer> {
     protected List<Resume> arrayList = new ArrayList<>();
 
     @Override
-    protected void doSave(Resume r, Object key) {
+    protected void doSave(Resume r, Integer key) {
         arrayList.add(r);
     }
 
     @Override
-    protected Resume doGet(Object key) {
-        return arrayList.get((int) key);
+    protected Resume doGet(Integer key) {
+        return arrayList.get(key);
     }
 
     @Override
-    protected void doUpdate(Resume r, Object key) {
-        arrayList.set((int) key, r);
+    protected void doUpdate(Resume r, Integer key) {
+        arrayList.set(key, r);
     }
 
     @Override
-    protected void doDelete(Object key) {
-        arrayList.remove(((Integer) key).intValue());
+    protected void doDelete(Integer key) {
+        arrayList.remove((key).intValue());
     }
 
     @Override
-    protected Object getSearchKey(String uuid) {
+    protected Integer getSearchKey(String uuid) {
         for (int i = 0; i < arrayList.size(); i++) {
             if (arrayList.get(i).uuid().equals(uuid)) {
                 return i;
@@ -39,7 +39,7 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean isExist(Object searchKey) {
+    protected boolean isExist(Integer searchKey) {
         return searchKey != null;
     }
 
@@ -54,8 +54,7 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    public List<Resume> getAllSorted() {
-        arrayList.sort(RESUME_COMPARATOR);
-        return arrayList;
+    public List<Resume> doCopyAll() {
+        return new ArrayList<>(arrayList);
     }
 }

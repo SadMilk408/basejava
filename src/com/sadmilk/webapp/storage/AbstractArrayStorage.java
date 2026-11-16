@@ -3,11 +3,10 @@ package com.sadmilk.webapp.storage;
 import com.sadmilk.webapp.exception.StorageException;
 import com.sadmilk.webapp.model.Resume;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public abstract class AbstractArrayStorage extends AbstractStorage {
+public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
     protected static final int STORAGE_LIMIT = 10000;
 
     protected int size = 0;
@@ -26,49 +25,45 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    public List<Resume> getAllSorted() {
-        Resume[] res = Arrays.copyOf(storage, size);
-        List<Resume> result = new ArrayList<>(Arrays.asList(res));
-        
-        result.sort(RESUME_COMPARATOR);
-        return result;
+    public List<Resume> doCopyAll() {
+        return Arrays.asList(Arrays.copyOfRange(storage, 0, size));
     }
 
     @Override
-    protected void doSave(Resume r, Object key) {
+    protected void doSave(Resume r, Integer key) {
         if (size >= STORAGE_LIMIT) {
             throw new StorageException("Storage is already full!", r.uuid());
         } else {
-            insertElement(r, (int) key);
+            insertElement(r, key);
             size++;
         }
     }
 
     @Override
-    protected Resume doGet(Object index) {
-        return storage[(int) index];
+    protected Resume doGet(Integer index) {
+        return storage[index];
     }
 
     @Override
-    protected void doUpdate(Resume r, Object index) {
-        storage[(int) index] = r;
+    protected void doUpdate(Resume r, Integer index) {
+        storage[index] = r;
     }
 
     @Override
-    protected void doDelete(Object index) {
-        fillDeletedElement((int) index);
+    protected void doDelete(Integer index) {
+        fillDeletedElement(index);
         storage[size - 1] = null;
         size--;
     }
 
     @Override
-    protected Object getSearchKey(String uuid) {
+    protected Integer getSearchKey(String uuid) {
         return getIndex(uuid);
     }
 
     @Override
-    protected boolean isExist(Object index) {
-        return (int) index >= 0;
+    protected boolean isExist(Integer index) {
+        return index >= 0;
     }
 
     protected abstract void fillDeletedElement(int index);

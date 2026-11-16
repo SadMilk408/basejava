@@ -7,37 +7,37 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MapResumeStorage extends AbstractStorage {
-    private final Map<Resume, Resume> map = new HashMap<>();
+public class MapResumeStorage extends AbstractStorage<Resume> {
+    private final Map<String, Resume> map = new HashMap<>();
 
     @Override
-    protected void doSave(Resume r, Object searchKey) {
-        map.put((Resume) searchKey, r);
+    protected void doSave(Resume r, Resume resume) {
+        map.put(r.uuid(), r);
     }
 
     @Override
-    protected Resume doGet(Object searchKey) {
-        return map.get((Resume) searchKey);
+    protected Resume doGet(Resume resume) {
+        return resume;
     }
 
     @Override
-    protected void doUpdate(Resume r, Object searchKey) {
-        map.put((Resume) searchKey, r);
+    protected void doUpdate(Resume r, Resume resume) {
+        map.put(r.uuid(), r);
     }
 
     @Override
-    protected void doDelete(Object searchKey) {
-        map.remove((Resume) searchKey);
+    protected void doDelete(Resume resume) {
+        map.remove((resume).uuid());
     }
 
     @Override
-    protected Object getSearchKey(String uuid) {
-        return new Resume(uuid);
+    protected Resume getSearchKey(String uuid) {
+        return map.get(uuid);
     }
 
     @Override
-    protected boolean isExist(Object searchKey) {
-        return map.containsKey((Resume) searchKey);
+    protected boolean isExist(Resume resume) {
+        return resume != null;
     }
 
     @Override
@@ -51,9 +51,7 @@ public class MapResumeStorage extends AbstractStorage {
     }
 
     @Override
-    public List<Resume> getAllSorted() {
-        List<Resume> result = new ArrayList<>(map.values());
-        result.sort(RESUME_COMPARATOR);
-        return result;
+    protected List<Resume> doCopyAll() {
+        return new ArrayList<>(map.values());
     }
 }

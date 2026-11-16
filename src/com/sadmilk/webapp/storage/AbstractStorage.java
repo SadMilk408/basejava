@@ -4,42 +4,40 @@ import com.sadmilk.webapp.exception.ExistStorageException;
 import com.sadmilk.webapp.exception.NotExistStorageException;
 import com.sadmilk.webapp.model.Resume;
 
-import java.util.Comparator;
+import java.util.Collections;
+import java.util.List;
 
-public abstract class AbstractStorage implements Storage {
-    protected static final Comparator<Resume> RESUME_COMPARATOR =
-            Comparator.comparing(Resume::fullName).thenComparing(Resume::uuid);
-
+public abstract class AbstractStorage<SK> implements Storage {
     @Override
     public void save(Resume r) {
-        Object searchKey = getNotExistedSearchKey(r.uuid());
+        SK searchKey = getNotExistedSearchKey(r.uuid());
 
         doSave(r, searchKey);
     }
 
     @Override
     public Resume get(String uuid) {
-        Object searchKey = getExistedSearchKey(uuid);
+        SK searchKey = getExistedSearchKey(uuid);
 
         return doGet(searchKey);
     }
 
     @Override
     public void update(Resume r) {
-        Object searchKey = getExistedSearchKey(r.uuid());
+        SK searchKey = getExistedSearchKey(r.uuid());
 
         doUpdate(r, searchKey);
     }
 
     @Override
     public void delete(String uuid) {
-        Object searchKey = getExistedSearchKey(uuid);
+        SK searchKey = getExistedSearchKey(uuid);
 
         doDelete(searchKey);
     }
 
-    private Object getExistedSearchKey(String uuid) {
-        Object searchKey = getSearchKey(uuid);
+    private SK getExistedSearchKey(String uuid) {
+        SK searchKey = getSearchKey(uuid);
 
         if (!isExist(searchKey)) {
             throw new NotExistStorageException(uuid);
@@ -48,8 +46,8 @@ public abstract class AbstractStorage implements Storage {
         return searchKey;
     }
 
-    private Object getNotExistedSearchKey(String uuid) {
-        Object searchKey = getSearchKey(uuid);
+    private SK getNotExistedSearchKey(String uuid) {
+        SK searchKey = getSearchKey(uuid);
 
         if (isExist(searchKey)) {
             throw new ExistStorageException(uuid);
@@ -58,15 +56,24 @@ public abstract class AbstractStorage implements Storage {
         return searchKey;
     }
 
-    protected abstract void doSave(Resume r, Object key);
+    @Override
+    public List<Resume> getAllSorted() {
+        List<Resume> list = doCopyAll();
+        Collections.sort(list);
+        return list;
+    }
 
-    protected abstract Resume doGet(Object key);
+    protected abstract void doSave(Resume r, SK key);
 
-    protected abstract void doUpdate(Resume r, Object key);
+    protected abstract Resume doGet(SK key);
 
-    protected abstract void doDelete(Object key);
+    protected abstract void doUpdate(Resume r, SK key);
 
-    protected abstract Object getSearchKey(String uuid);
+    protected abstract void doDelete(SK key);
 
-    protected abstract boolean isExist(Object searchKey);
+    protected abstract SK getSearchKey(String uuid);
+
+    protected abstract boolean isExist(SK searchKey);
+
+    protected abstract List<Resume> doCopyAll();
 }
