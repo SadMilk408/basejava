@@ -10,7 +10,7 @@ import java.util.List;
 public abstract class AbstractStorage<SK> implements Storage {
     @Override
     public void save(Resume r) {
-        SK searchKey = getNotExistedSearchKey(r.uuid());
+        SK searchKey = getNotExistedSearchKey(r.getUuid());
 
         doSave(r, searchKey);
     }
@@ -24,7 +24,7 @@ public abstract class AbstractStorage<SK> implements Storage {
 
     @Override
     public void update(Resume r) {
-        SK searchKey = getExistedSearchKey(r.uuid());
+        SK searchKey = getExistedSearchKey(r.getUuid());
 
         doUpdate(r, searchKey);
     }

@@ -32,7 +32,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
     @Override
     protected void doSave(Resume r, Integer key) {
         if (size >= STORAGE_LIMIT) {
-            throw new StorageException("Storage is already full!", r.uuid());
+            throw new StorageException("Storage is already full!", r.getUuid());
         } else {
             insertElement(r, key);
             size++;

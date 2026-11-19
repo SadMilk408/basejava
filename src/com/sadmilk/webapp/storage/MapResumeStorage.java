@@ -12,7 +12,7 @@ public class MapResumeStorage extends AbstractStorage<Resume> {
 
     @Override
     protected void doSave(Resume r, Resume resume) {
-        map.put(r.uuid(), r);
+        map.put(r.getUuid(), r);
     }
 
     @Override
@@ -22,12 +22,12 @@ public class MapResumeStorage extends AbstractStorage<Resume> {
 
     @Override
     protected void doUpdate(Resume r, Resume resume) {
-        map.put(r.uuid(), r);
+        map.put(r.getUuid(), r);
     }
 
     @Override
     protected void doDelete(Resume resume) {
-        map.remove((resume).uuid());
+        map.remove((resume).getUuid());
     }
 
     @Override
