@@ -2,6 +2,8 @@ package com.sadmilk.webapp.storage;
 
 import com.sadmilk.webapp.model.Resume;
 
+import java.util.List;
+
 public interface Storage {
     int size();
 
@@ -11,7 +13,7 @@ public interface Storage {
 
     Resume get(String uuid);
 
-    Resume[] getAll();
+    List<Resume> getAllSorted();
 
     void update(Resume r);
 

@@ -1,10 +1,10 @@
 import com.sadmilk.webapp.model.Resume;
 import com.sadmilk.webapp.storage.ArrayStorage;
-import com.sadmilk.webapp.storage.Storage;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.List;
 
 /**
  * Interactive test for ArrayStorage implementation
@@ -17,43 +17,43 @@ public class MainArray {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         Resume r;
         while (true) {
-            System.out.print("Введите одну из команд - (list | size | save uuid | update uuid | delete uuid | get uuid | clear | exit): ");
+            System.out.print("Введите одну из команд - (list | save fullName | size | save uuid | update uuid | update fullName | delete uuid | get uuid | clear | exit): ");
             String[] params = reader.readLine().trim().toLowerCase().split(" ");
-            if (params.length < 1 || params.length > 2) {
+            if (params.length < 1 || params.length > 3) {
                 System.out.println("Неверная команда.");
                 continue;
             }
-            String uuid = null;
-            if (params.length == 2) {
-                uuid = params[1].intern();
+            String param = null;
+            if (params.length > 1) {
+                param = params[1].intern();
             }
             switch (params[0]) {
                 case "list":
-                    printAll(ARRAY_STORAGE);
+                    printAll();
                     break;
                 case "size":
                     System.out.println(ARRAY_STORAGE.size());
                     break;
                 case "save":
-                    r = new Resume(uuid);
+                    r = new Resume(param);
                     ARRAY_STORAGE.save(r);
-                    printAll(ARRAY_STORAGE);
+                    printAll();
                     break;
                 case "update":
-                    r = new Resume(uuid);
+                    r = new Resume(param, params[2]);
                     ARRAY_STORAGE.update(r);
-                    printAll(ARRAY_STORAGE);
+                    printAll();
                     break;
                 case "delete":
-                    ARRAY_STORAGE.delete(uuid);
-                    printAll(ARRAY_STORAGE);
+                    ARRAY_STORAGE.delete(param);
+                    printAll();
                     break;
                 case "get":
-                    System.out.println(ARRAY_STORAGE.get(uuid));
+                    System.out.println(ARRAY_STORAGE.get(param));
                     break;
                 case "clear":
                     ARRAY_STORAGE.clear();
-                    printAll(ARRAY_STORAGE);
+                    printAll();
                     break;
                 case "exit":
                     return;
@@ -64,10 +64,10 @@ public class MainArray {
         }
     }
 
-    static void printAll(Storage s) {
-        Resume[] all = s.getAll();
+    static void printAll() {
+        List<Resume> all = MainArray.ARRAY_STORAGE.getAllSorted();
         System.out.println("----------------------------");
-        if (all.length == 0) {
+        if (all.toArray().length == 0) {
             System.out.println("Empty");
         } else {
             for (Resume r : all) {
