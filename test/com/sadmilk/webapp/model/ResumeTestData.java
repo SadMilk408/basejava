@@ -7,10 +7,10 @@ import java.util.ArrayList;
 
 public class ResumeTestData {
 
-    public static void main(String[] args) {
+    public static Resume createResume(String uuid, String fullName) {
         Resume resume = new Resume(
-                "uuid-123",
-                "Иван Иванов"
+                uuid,
+                fullName
         );
 
         resume.addContacts(ContactType.GITHUB, new TextSection("github.com/SadMilk408"));
@@ -18,10 +18,27 @@ public class ResumeTestData {
         resume.addContacts(ContactType.MAIL, new TextSection("homyku408@gmail.com"));
 
         var organizations = new ArrayList<Organization>();
+        var workPeriods = new ArrayList<WorkPeriod>();
 
-        organizations.add(new Organization("123", "123.ru", DateUtil.of(2024, Month.MAY), DateUtil.of(2026, Month.NOVEMBER), "123", "123"));
+        workPeriods.add(
+                new WorkPeriod(
+                        DateUtil.of(2024, Month.MAY),
+                        DateUtil.of(2026, Month.NOVEMBER),
+                        "123"));
+
+        organizations.add(new Organization(
+                "123",
+                null,
+                "123",
+                workPeriods));
 
         resume.addSection(SectionType.EXPERIENCE, new OrganizationSection(organizations));
+
+        return resume;
+    }
+
+    public static void main(String[] args) {
+        var resume = createResume("uuid-123", "test");
 
         System.out.println(resume);
     }
