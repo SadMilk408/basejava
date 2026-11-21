@@ -27,11 +27,12 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     protected void doSave(Resume r, File file) {
         try {
             if (file.createNewFile()) {
-                doWrite(r, file);
+                throw new StorageException("Couldn't create file" + file.getAbsolutePath(), file.getName());
             }
         } catch (IOException e) {
             throw new StorageException("IO error", r.getUuid(), e);
         }
+        doUpdate(r, file);
     }
 
     @Override
@@ -39,7 +40,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         try {
             return doRead(file);
         } catch (IOException e) {
-            throw new StorageException("IO error", file.getName(), e);
+            throw new StorageException("File read error", file.getName(), e);
         }
     }
 
@@ -54,7 +55,9 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     protected void doDelete(File file) {
-        boolean delete = file.delete();
+        if (!file.delete()) {
+            throw new StorageException("File delete error", file.getName());
+        }
     }
 
     @Override
@@ -74,11 +77,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
         if (list != null) {
             for (File file : list) {
-                try {
-                    resumes.add(doRead(file));
-                } catch (IOException e) {
-                    throw new StorageException("IO error", file.getName(), e);
-                }
+                resumes.add(doGet(file));
             }
         }
 
@@ -87,7 +86,11 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     public int size() {
-        return Objects.requireNonNull(directory.list()).length;
+        String[] list = directory.list();
+        if (list == null) {
+            throw new StorageException("Directory read error", null);
+        }
+        return list.length;
     }
 
     @Override
@@ -95,7 +98,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         File[] list = directory.listFiles();
         if (list != null) {
             for (File file : list) {
-                boolean delete = file.delete();
+                doDelete(file);
             }
         }
     }
