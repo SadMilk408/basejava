@@ -3,6 +3,7 @@ package com.sadmilk.webapp.storage;
 import com.sadmilk.webapp.exception.ExistStorageException;
 import com.sadmilk.webapp.exception.NotExistStorageException;
 import com.sadmilk.webapp.model.Resume;
+import com.sadmilk.webapp.model.ResumeTestData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -15,16 +16,16 @@ public abstract class AbstractStorageTest {
     protected final Storage storage;
 
     private static final String UUID_1 = "uuid1";
-    private static final Resume RESUME_1 = new Resume(UUID_1, "Name 1");
+    private static final Resume RESUME_1 = ResumeTestData.createResume(UUID_1, "Name 1");
 
     private static final String UUID_2 = "uuid2";
-    private static final Resume RESUME_2 = new Resume(UUID_2, "Name 2");
+    private static final Resume RESUME_2 = ResumeTestData.createResume(UUID_2, "Name 2");
 
     private static final String UUID_3 = "uuid3";
-    private static final Resume RESUME_3 = new Resume(UUID_3, "Name 3");
+    private static final Resume RESUME_3 = ResumeTestData.createResume(UUID_3, "Name 3");
 
     private static final String UUID_4 = "uuid4";
-    private static final Resume RESUME_4 = new Resume(UUID_4, "Name 4");
+    private static final Resume RESUME_4 = ResumeTestData.createResume(UUID_4, "Name 4");
 
     protected AbstractStorageTest(Storage storage) {
         this.storage = storage;
@@ -92,7 +93,7 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void update() {
-        Resume updated = new Resume(UUID_1, "New Name");
+        Resume updated = ResumeTestData.createResume(UUID_1, "New Name");
 
         storage.update(updated);
 
