@@ -1,10 +1,15 @@
 package com.sadmilk.webapp.model;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
 public class ListSection extends Section {
     private final List<String> items;
+
+    public ListSection(String... items) {
+        this(Arrays.asList(items));
+    }
 
     protected ListSection(List<String> items) {
         Objects.requireNonNull(items, "items must not be null");

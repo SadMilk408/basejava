@@ -1,7 +1,5 @@
 package com.sadmilk.webapp.model;
 
-import com.sadmilk.webapp.util.DateUtil;
-
 import java.time.Month;
 import java.util.ArrayList;
 
@@ -18,19 +16,17 @@ public class ResumeTestData {
         resume.addContacts(ContactType.MAIL, new TextSection("homyku408@gmail.com"));
 
         var organizations = new ArrayList<Organization>();
-        var workPeriods = new ArrayList<WorkPeriod>();
-
-        workPeriods.add(
-                new WorkPeriod(
-                        DateUtil.of(2024, Month.MAY),
-                        DateUtil.of(2026, Month.NOVEMBER),
-                        "123"));
 
         organizations.add(new Organization(
                 "123",
                 null,
-                "123",
-                workPeriods));
+                new Organization.WorkPeriod(
+                        2024, Month.MAY,
+                        2026, Month.OCTOBER,
+                        "123", ""),
+                new Organization.WorkPeriod(
+                        2026, Month.OCTOBER,
+                        "1234", "")));
 
         resume.addSection(SectionType.EXPERIENCE, new OrganizationSection(organizations));
 

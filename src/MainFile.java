@@ -2,17 +2,19 @@ import java.io.File;
 
 public class MainFile {
     public static void main(String[] args) {
-        File dir = new File("C:/Users/homyk/IdeaProjects/basejava/src");
-        printAllFilesInDirectory(dir.getAbsolutePath());
+        printAllFilesInDirectory(new File("C:/Users/homyk/IdeaProjects/basejava/src"));
     }
 
-    static void printAllFilesInDirectory(String pathName) {
-        File dir = new File(pathName);
-        String[] list = dir.list();
+    static void printAllFilesInDirectory(File dir) {
+        File[] list = dir.listFiles();
         if (list != null) {
-            for (String name : list) {
-                System.out.println(name);
-                printAllFilesInDirectory(dir.getAbsolutePath() + "/" + name);
+            for (File file : list) {
+                if (file.isFile()) {
+                    System.out.println("    " + file.getName());
+                } else if (file.isDirectory()) {
+                    System.out.println(file.getName());
+                    printAllFilesInDirectory(file);
+                }
             }
         }
     }
